@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
     
     public float playerHP = 10f;
 
+    public float regenTimer = 0;
     //private int playerLives;
     //private float stamina;
 
@@ -44,7 +45,27 @@ public class PlayerController : MonoBehaviour {
         if(Input.GetMouseButtonUp(0)){
             gun.isFiring = false;
         }
-	}
+
+        if (Input.GetMouseButtonDown(1)&&gmi.lStats.spreadUnlocked)
+        {
+            gun.spreadFire = true;
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            gun.spreadFire = false;
+        }
+
+        if (gmi.lStats.playerRegenAP>1)
+        {
+            regenTimer += Time.deltaTime;
+            if (regenTimer >=1 && playerHP < gmi.lStats.playerStartingHP)
+            {
+                playerHP += Mathf.RoundToInt(.1f * gmi.lStats.playerRegenAP);
+                print("Regen done.");
+            }
+        }
+    }
 
     public void LoadNewLevelPlayer(){
         playerHP = gmi.lStats.currentPlayerHP;
@@ -58,6 +79,8 @@ public class PlayerController : MonoBehaviour {
             print("New game hp" + gmi.lStats.playerStartingHP + " "+ gmi.lStats.playerHPAP);
             playerHP = gmi.lStats.playerStartingHP * gmi.lStats.playerHPAP;
             gmi.lStats.currentPlayerHP = playerHP;
+            print("Current player HP = " + playerHP);
+            print("Current player HP = " + gmi.lStats.currentPlayerHP);
         }
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour {
 
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour {
     public PersistentStatsController lStats = new PersistentStatsController();
     public GameObject onScreenMenu;
 
+    public AudioMixer am;
+    private MusicManager mm;
     private PointsController pc;
     private SpawnerController spawnCtrl;
     private GameManager gmi;
@@ -30,16 +33,22 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         gmi = GameManager.Instance;
-        pc = FindObjectOfType<PointsController>();
+
+        mm = FindObjectOfType<MusicManager>();
+        FindPointsController();
         LoadGame("Player");
+        SetVolumes();
+        CalculateCurrentStage();
         spawnCtrl = FindObjectOfType<SpawnerController>();
     }
 
     public void GameOverActive(){
+        FindPointsController();
         pc.CalculatePoints();
         FindGameOver();
         onScreenMenu.SetActive(true);
-        spawnCtrl.totalSpawned = spawnCtrl.maxSpawn;
+        mm.musicPlaying = false;
+        mm.audioSource.Stop();
     }
 
     void FindGameOver()
@@ -47,9 +56,20 @@ public class GameManager : MonoBehaviour {
         onScreenMenu = GameObject.Find("OnScreenMenu").transform.GetChild(0).gameObject;
     }
 
-    static void SetPSDefaults(){
+    void FindPointsController(){
+        pc = FindObjectOfType<PointsController>();
+    }
+
+    public void SetPSDefaults(){
         GameManager.Instance.lStats.playerStartingHP = 10;
         GameManager.Instance.lStats.playerHPAP = 1;
+        GameManager.Instance.lStats.playerRegenAP = 1;
+        GameManager.Instance.lStats.atPoints = 0;
+        GameManager.Instance.lStats.spendablePoints = 0;
+        GameManager.Instance.lStats.spFactor = 5;
+        GameManager.Instance.lStats.spFactorAP = 1;
+        GameManager.Instance.lStats.playerSSAP = 1;
+        GameManager.Instance.lStats.spawnAddAP = 1;
 
         GameManager.Instance.lStats.currentGunFR = 2;
         GameManager.Instance.lStats.currentGunPD = 3;
@@ -57,19 +77,42 @@ public class GameManager : MonoBehaviour {
         GameManager.Instance.lStats.gunFRAP = 1;
         GameManager.Instance.lStats.gunPDAP = 1;
         GameManager.Instance.lStats.gunPSAP = 1;
+        GameManager.Instance.lStats.spreadUnlocked = false;
+
+        GameManager.Instance.lStats.spreadFRAP = 1;
+        GameManager.Instance.lStats.spreadPDAP = 1;
+        GameManager.Instance.lStats.spreadPSAP = 1;
 
         GameManager.Instance.lStats.cost_gunFRAP = 1;
         GameManager.Instance.lStats.cost_gunPDAP = 1;
         GameManager.Instance.lStats.cost_gunPSAP = 1;
+        GameManager.Instance.lStats.cost_spreadUnlock = 100;
+        GameManager.Instance.lStats.cost_spreadFRAP = 1;
+        GameManager.Instance.lStats.cost_spreadPDAP = 1;
+        GameManager.Instance.lStats.cost_spreadPSAP = 1;
         GameManager.Instance.lStats.cost_playerHPAP = 1;
+        GameManager.Instance.lStats.cost_playerSSAP = 1;
+        GameManager.Instance.lStats.cost_spFactorAP = 1;
+        GameManager.Instance.lStats.cost_playerRegenAP = 1;
+        GameManager.Instance.lStats.cost_comboTimerMaxAP = 1;
+        GameManager.Instance.lStats.cost_spawnAddAP = 1;
 
         GameManager.Instance.lStats.currentStage = 1;
+        GameManager.Instance.lStats.startingStage = 1;
+        GameManager.Instance.lStats.comboTimerMaxAP = 1;
+
+
+        GameManager.Instance.lStats.enemiesDefeated = 0;
     }
 
     public void RestartGame(){
         lStats.currentPoints = 0;
-        lStats.currentStage = 1;
+        CalculateCurrentStage();
         lStats.spThisRound=0;
+
+        lStats.currentCombo = 0;
+        lStats.currentComboTimer = 0;
+
     }
 
     public static void SaveGame(string type){
@@ -87,7 +130,7 @@ public class GameManager : MonoBehaviour {
             print("Save file does not exist, creating");
             StreamWriter newSave = new StreamWriter(filepath);
             newSave.Close();
-            SetPSDefaults();
+            GameManager.Instance.SetPSDefaults();
             print("Created. Verifying save");
             SaveGame(type);
         }
@@ -122,5 +165,16 @@ public class GameManager : MonoBehaviour {
     public int GetStat(string statname){
         int stat = (int)lStats.GetType().GetField(statname).GetValue(lStats);
         return stat;
+    }
+
+    public void CalculateCurrentStage(){
+        lStats.startingStage = gmi.lStats.playerSSAP;
+        lStats.currentStage = lStats.startingStage;
+    }
+
+    public void SetVolumes(){
+        am.SetFloat("sfxVolume", lStats.sfxVolumeSet);
+        am.SetFloat("bgmVolume", lStats.bgmVolumeSet);
+        am.SetFloat("masterVolume", lStats.masterVolume);
     }
 }

@@ -9,12 +9,16 @@ public class SpawnerController : MonoBehaviour {
     public int maxSpawn;
     public int totalSpawned;
     public float spawnCooldown;
+    public float multiSpawnCooldown;
     public float nextSpawn;
     //[HideInInspector]
     public int inScene = 0;
 
     private bool allEnemiesSpawned = false;
+    public bool spawningEnemies = false;
+    private bool spawnWaiting = false;
 
+    private ComboController cc;
     private EnemiesContainer ec;
     private StageController sc;
     private GameManager gmi;
@@ -25,6 +29,8 @@ public class SpawnerController : MonoBehaviour {
         ec = FindObjectOfType<EnemiesContainer>();
         allSpawners = FindObjectsOfType<Spawner>();
         sc = FindObjectOfType<StageController>();
+        cc = FindObjectOfType<ComboController>();
+        spawningEnemies = true;
         maxSpawn = gmi.lStats.currentStage * 10;
         nextSpawn = Mathf.Abs(5 - (gmi.lStats.currentStage / 50));
 	}
@@ -32,42 +38,75 @@ public class SpawnerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (totalSpawned == maxSpawn)
+        if (totalSpawned >= maxSpawn)
         {
             allEnemiesSpawned = true;
-            print("all enemies spawned : " + totalSpawned + "/" + maxSpawn);
+            spawningEnemies = false;
         }
 
         spawnCooldown -= Time.deltaTime;
+        multiSpawnCooldown -= Time.deltaTime;
 
         if (spawnCooldown<=-0.5f)
         {
             spawnCooldown = -0.5f;
         }
 
-        if (spawnCooldown <=0 &&totalSpawned<maxSpawn)
+        if (spawnCooldown <= 0 && spawningEnemies)
         {
-            int spawnerNumber = Random.Range(0, 3);
-            allSpawners[spawnerNumber].SpawnEnemy();
-            totalSpawned++;
-
+            CallSpawn(1);
             spawnCooldown = nextSpawn;
         }
 
-        //inScene = ec.transform.childCount+1;
         inScene = ec.transform.childCount;
-
         StageClear();
 	}
 
     void StageClear(){
         if (allEnemiesSpawned && inScene <=0)
         {
-            print("No more enemies. Calling StageClear");
             gmi.lStats.currentStage++;
-            //TODO get COMBO info into next scene, add to persistent stats.
+            gmi.lStats.currentCombo = cc.comboCount;
+            gmi.lStats.currentComboTimer = cc.comboTimer;
+            GameManager.SaveGame("Player");
             SceneManager.LoadScene("01_MainGame");
         }
     }
-        
+
+    public void CallSpawn(int number){
+        int remaining = maxSpawn - totalSpawned;
+        if (number <=remaining)
+        {
+            //for (int i = 0; i < number; i++)
+            //{
+            totalSpawned += number;
+            StartCoroutine(_spawnWait(number));
+                //int spawnerNumber = Random.Range(0, 3);
+                //allSpawners[spawnerNumber].SpawnEnemy();
+                //totalSpawned++;
+
+            //}
+        }else{
+            for (int i = 0; i < remaining; i++)
+            {
+                totalSpawned += remaining;
+                _spawnWait(remaining);
+                //int spawnerNumber = Random.Range(0, 4);
+                //allSpawners[spawnerNumber].SpawnEnemy();
+                //totalSpawned++;
+            }
+            spawningEnemies = false;
+        }
+    }
+
+    public IEnumerator _spawnWait(int number){
+        int i = 0;
+        while(i<number){
+            yield return new WaitForSeconds(.001f);
+            int spawnerNumber = Random.Range(0, 4);
+            allSpawners[spawnerNumber].SpawnEnemy();
+            //totalSpawned++;
+            i++;
+        }
+    }
 }

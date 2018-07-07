@@ -14,6 +14,7 @@ public class ShopUpgradeButton : MonoBehaviour {
 	void Start () {
         sb = GetComponentInParent<ShopButton>();
         gmi = GameManager.Instance;
+        CheckSpreadUnlocked();
 	}
 	
 	// Update is called once per frame
@@ -31,6 +32,25 @@ public class ShopUpgradeButton : MonoBehaviour {
             gmi.ModifyStat(parentString, 1);
             gmi.ModifyStat("cost_" + parentString, (int)(currentValue * 2));
             sb.UpdateStatDisplay();
+        }
+    }
+
+    public void UnlockSpread(){
+        BuyGunButton bgb = GetComponentInParent<BuyGunButton>();
+        print(gmi.lStats.spendablePoints + " " + bgb.cost);
+        if (gmi.lStats.spendablePoints >= bgb.cost)
+        {
+            gmi.lStats.spendablePoints -= bgb.cost;
+            gmi.lStats.spreadUnlocked = true;
+            bgb.gameObject.SetActive(false);
+        }
+    }
+
+    public void CheckSpreadUnlocked(){
+        BuyGunButton bgb = GetComponentInParent<BuyGunButton>();
+        if (gmi.lStats.spreadUnlocked && bgb)
+        {
+            bgb.gameObject.SetActive(false);
         }
     }
 }

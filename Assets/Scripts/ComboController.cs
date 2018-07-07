@@ -7,6 +7,7 @@ public class ComboController : MonoBehaviour {
     
     public bool ctRunning = false;
     public float comboTimer =0.0f;
+    public float comboTimerMax = 8f;
     public float comboTimeRenew = 5.0f;
     public int comboCount=0;
 
@@ -16,9 +17,18 @@ public class ComboController : MonoBehaviour {
 	void Start () {
         gmi = GameManager.Instance;
         cText = GetComponent<Text>();
-	}
+        if(gmi.lStats.currentCombo>0){
+            comboTimer = gmi.lStats.currentComboTimer;
+            comboCount = gmi.lStats.currentCombo;
+            ctRunning = true;
+        }
+
+        if (gmi.lStats.comboTimerMaxAP>=1)
+        {
+            comboTimerMax += comboTimerMax * 0.1f;
+        }
+    }
 	
-	// Update is called once per frame
 	void Update () {
         if (comboTimer>=0.0f)
         {
@@ -29,13 +39,18 @@ public class ComboController : MonoBehaviour {
             ctRunning = false;
             comboCount = 0;
         }
-        cText.text = "Combo : " + comboCount;
+        cText.text = comboCount + " COMBO";
     }
 
     public void StartComboTimer(){
         if (ctRunning)
         {
-            comboTimer += comboTimeRenew;
+            if ((comboTimer + comboTimeRenew) >=comboTimerMax)
+            {
+                comboTimer = comboTimerMax;
+            }else{
+                comboTimer += comboTimeRenew;
+            }
             comboCount++;
         }else{
             ctRunning = true;

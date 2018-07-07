@@ -7,6 +7,7 @@ public class ProjectileController : MonoBehaviour {
     public float speed;
     public float dmg;
 
+    private SFXManager sfxManager;
     private ComboController cc;
     private SpawnerController sc;
     private GameManager gmi;
@@ -15,6 +16,7 @@ public class ProjectileController : MonoBehaviour {
         gmi = GameManager.Instance;
         sc = FindObjectOfType<SpawnerController>();
         cc = FindObjectOfType<ComboController>();
+        sfxManager = FindObjectOfType<SFXManager>();
     }
 
 	// Update is called once per frame
@@ -46,7 +48,6 @@ public class ProjectileController : MonoBehaviour {
         }else{
             dmgTarget.GetComponent<EnemyController>().health -= dmg;
         }
-
     }
 
     void DestroyEnemy(GameObject obj){
@@ -56,6 +57,7 @@ public class ProjectileController : MonoBehaviour {
         gmi.lStats.atPoints += (oec.pointValue);
         Destroy(obj);
         cc.StartComboTimer();
-        sc.spawnCooldown = 0.1f;
+        sc.CallSpawn(gmi.lStats.spawnAddAP);
+        sfxManager.PlayEnemyDeath();
     }
 }
