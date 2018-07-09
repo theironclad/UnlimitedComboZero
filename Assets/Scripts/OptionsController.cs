@@ -12,6 +12,8 @@ public class OptionsController : MonoBehaviour {
     public Slider sfxSlider;
     public Slider bgmSlider;
 
+    private MenuButtonController mbc;
+
     public AudioMixer am;
     private GameManager gmi;
 
@@ -74,5 +76,10 @@ public class OptionsController : MonoBehaviour {
         masterSlider.value = gmi.lStats.masterVolume;
         sfxSlider.value = gmi.lStats.sfxVolumeSet;
         bgmSlider.value = gmi.lStats.bgmVolumeSet;
+    }
+
+    public void CloseOptions(){
+        GameObject.Find("OnScreenMenu").transform.GetChild(2).gameObject.SetActive(true);
+        GameObject.Find("OnScreenMenu").transform.GetChild(3).gameObject.SetActive(false);
     }
 }

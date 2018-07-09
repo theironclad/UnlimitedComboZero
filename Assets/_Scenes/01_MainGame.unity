@@ -886,6 +886,7 @@ GameObject:
   - component: {fileID: 213324552}
   - component: {fileID: 213324554}
   - component: {fileID: 213324553}
+  - component: {fileID: 213324555}
   m_Layer: 5
   m_Name: Options_Panel
   m_TagString: Untagged
@@ -950,6 +951,22 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 213324551}
+--- !u!114 &213324555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 213324551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a90d26233b8e415cab8655a7f25ad6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionsObj: {fileID: 849641855}
+  masterSlider: {fileID: 1742417602}
+  sfxSlider: {fileID: 999488056}
+  bgmSlider: {fileID: 687691314}
+  am: {fileID: 0}
 --- !u!1 &272362290
 GameObject:
   m_ObjectHideFlags: 0
@@ -2549,7 +2566,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 849641857}
-        m_MethodName: SaveAndExit
+        m_MethodName: CloseOptions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3015,7 +3032,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a90d26233b8e415cab8655a7f25ad6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optionsObj: {fileID: 0}
+  optionsObj: {fileID: 849641855}
   masterSlider: {fileID: 0}
   sfxSlider: {fileID: 0}
   bgmSlider: {fileID: 0}
@@ -3284,6 +3301,8 @@ MonoBehaviour:
   playerShop: {fileID: 0}
   gunShop: {fileID: 0}
   secretShop: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
 --- !u!114 &884425872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3325,7 +3344,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 884425871}
-        m_MethodName: RetryGame
+        m_MethodName: ShowOptions
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5043,6 +5062,8 @@ MonoBehaviour:
   playerShop: {fileID: 0}
   gunShop: {fileID: 0}
   secretShop: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
 --- !u!114 &1529791797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6204,6 +6225,8 @@ MonoBehaviour:
   playerShop: {fileID: 0}
   gunShop: {fileID: 0}
   secretShop: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
 --- !u!114 &1911933563
 MonoBehaviour:
   m_ObjectHideFlags: 0

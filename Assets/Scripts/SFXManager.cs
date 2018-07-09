@@ -9,6 +9,7 @@ public class SFXManager : MonoBehaviour {
     public AudioClip enemyDeath;
     public AudioClip playerDeath;
     public AudioClip enemyAppear;
+    public AudioClip playerHit;
 
 	void Awake()
 	{
@@ -50,5 +51,10 @@ public class SFXManager : MonoBehaviour {
 
     public void PlayEnemyAppear(){
         aSource.clip = enemyAppear;
+    }
+
+    public void PlayPlayerHit(){
+        aSource.clip = playerHit;
+        aSource.Play();
     }
 }

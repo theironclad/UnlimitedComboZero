@@ -233,7 +233,7 @@ MonoBehaviour:
   hitCooldown: 0
   pps: {fileID: 198040228965146232, guid: 8e41e4d221d9545c1b109f4eb95f2b8a, type: 2}
   aSource: {fileID: 82582227335266834}
-  shotSound: {fileID: 8300000, guid: 25a0de8f7332646e8b4474e2c55202b9, type: 3}
+  shotSound: {fileID: 8300000, guid: 19d4f7665fb434f519483522043fce34, type: 3}
   deathSound: {fileID: 8300000, guid: 9fb1c732941794fa1a3257fab06d050c, type: 3}
 --- !u!114 &114937442629987634
 MonoBehaviour:

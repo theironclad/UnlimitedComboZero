@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour {
 
     private Camera mainCam;
     private GunController gun;
-
+    private GameObject pauseMenu;
+    private GameObject optionsMenu;
     private GameManager gmi;
 
 	// Use this for initialization
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour {
         gmi = GameManager.Instance;
         mainCam = FindObjectOfType<Camera>();
         gun = GetComponentInChildren<GunController>();
+        pauseMenu = GameObject.Find("OnScreenMenu").transform.GetChild(2).gameObject;
+        optionsMenu = GameObject.Find("OnScreenMenu").transform.GetChild(3).gameObject;
         Invoke("LoadPlayer", 0.05f);
 	}
 	
@@ -59,12 +62,41 @@ public class PlayerController : MonoBehaviour {
         if (gmi.lStats.playerRegenAP>1)
         {
             regenTimer += Time.deltaTime;
-            if (regenTimer >=1 && playerHP < gmi.lStats.playerStartingHP)
+            if (regenTimer >=1 && playerHP < gmi.lStats.currentPlayerHP)
             {
                 playerHP += Mathf.RoundToInt(.1f * gmi.lStats.playerRegenAP);
-                print("Regen done.");
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!pauseMenu.activeSelf && !optionsMenu.activeSelf)
+            {
+                pauseMenu.SetActive(true);
+                Time.timeScale = 0;
+                return;
+            }
+            if (optionsMenu.activeSelf && pauseMenu.activeSelf)
+            {
+                optionsMenu.SetActive(false);
+                return;
+            }
+
+            if (optionsMenu.activeSelf)
+            {
+                optionsMenu.SetActive(false);
+                pauseMenu.SetActive(true);
+                return;
+            }
+
+            if (pauseMenu.activeSelf)
+            {
+                optionsMenu.SetActive(false);
+                pauseMenu.SetActive(false);
+                Time.timeScale = 1;
+            }
+        }
+
     }
 
     public void LoadNewLevelPlayer(){
@@ -76,11 +108,8 @@ public class PlayerController : MonoBehaviour {
         {
             LoadNewLevelPlayer();
         }else if(!gmi.inGame){
-            print("New game hp" + gmi.lStats.playerStartingHP + " "+ gmi.lStats.playerHPAP);
             playerHP = gmi.lStats.playerStartingHP * gmi.lStats.playerHPAP;
             gmi.lStats.currentPlayerHP = playerHP;
-            print("Current player HP = " + playerHP);
-            print("Current player HP = " + gmi.lStats.currentPlayerHP);
         }
     }
 }

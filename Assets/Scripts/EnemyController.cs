@@ -22,11 +22,12 @@ public class EnemyController : MonoBehaviour {
     public AudioClip shotSound;
     public AudioClip deathSound;
 
+    private enum DmgType{projectile,melee};
     private ComboController cc;
     private MusicManager mm;
     private SFXManager sfxManager;
     private EnemyGun eg;
-    private GameObject ec;
+    private EnemyController[] ec;
     private Rigidbody[] rbs;
     private PlayerController target;
     private SpawnerController sc;
@@ -40,9 +41,17 @@ public class EnemyController : MonoBehaviour {
         sfxManager = FindObjectOfType<SFXManager>();
         target = FindObjectOfType<PlayerController>();
         sc = FindObjectOfType<SpawnerController>();
-        health = 5 * gmi.lStats.currentStage;
         cc = FindObjectOfType<ComboController>();
-	}
+
+        if (gmi.lStats.currentStage>5)
+        {
+            int shootRoll = Random.Range(0, gmi.lStats.currentStage);
+            if (shootRoll%2==0)
+            {
+                canShoot = true;
+            }
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -56,22 +65,8 @@ public class EnemyController : MonoBehaviour {
 
         if (isAttacking && hitCooldown<=0 && target.playerHP > 0)
         {
-            print("Enemy hit cooldown is lessthan or = 0 ");
-            DoDamage();
+            DoDamage(1);
         }
-
-        //if (gameObject.transform.position.y<=-20)
-        //{
-        //    gmi.lStats.enemiesDefeated++;
-        //    gmi.lStats.currentPoints ++;
-        //    gmi.lStats.atPoints ++;
-
-        //    cc.StartComboTimer();
-        //    sc.CallSpawn(1);
-        //    Destroy(gameObject);
-        //    sfxManager.PlayEnemyDeath();
-
-        //}
 
         shotCooldown -= Time.deltaTime;
         if (shotCooldown <= -0.5f)
@@ -101,7 +96,7 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
-    public void DoDamage(){
+    public void DoDamage(int multiplier){
         PlayerController p = FindObjectOfType<PlayerController>();
 
         if (!p)
@@ -110,18 +105,17 @@ public class EnemyController : MonoBehaviour {
             return;
         }
 
-        if ((p.playerHP - strength)<=0)
+        if ((p.playerHP - strength*multiplier)<=0)
         {
             p.playerHP = 0;
             DestroyPlayer(p);
             sc.spawningEnemies = false;
         }else{
-            print("Doing " + strength + " damage");
-            p.playerHP -= strength;
+            p.playerHP -= strength*multiplier;
+            sfxManager.PlayPlayerHit();
         }
 
-        print("Setting hit cooldown to 2f");
-        hitCooldown = 2f;
+        hitCooldown = Random.Range(1f,2f);
     }
 
     void FindAndMove(){
@@ -131,12 +125,17 @@ public class EnemyController : MonoBehaviour {
         }
         if (!target){
             speed = 0;
+            return;
         }
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
     public void DestroyPlayer(PlayerController pc){
-        
+
+        ec = GameObject.Find("EnemiesContainer").GetComponentsInChildren<EnemyController>();
+        foreach(EnemyController e in ec){
+            e.canShoot = false;
+        }
         rbs = GameObject.Find("EnemiesContainer").GetComponentsInChildren<Rigidbody>();
         foreach(Rigidbody rb in rbs){
             rb.useGravity = false;
@@ -151,11 +150,15 @@ public class EnemyController : MonoBehaviour {
 
     public void SpawnPlayerDeathParticles()
     {
-        ParticleSystem newParticles = Instantiate(pps, target.transform.position, Quaternion.identity);
-        float desTime = newParticles.main.duration;
-        Destroy(newParticles, desTime);
-        Invoke("CallGO", desTime);
-        gmi.inGame = false;
+        if (target)
+        {
+            ParticleSystem newParticles = Instantiate(pps, target.transform.position, Quaternion.identity);
+            float desTime = newParticles.main.duration;
+            Destroy(newParticles, desTime);
+            Invoke("CallGO", desTime);
+            gmi.inGame = false;
+        }
+
     }
 
     public void CallGO(){

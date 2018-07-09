@@ -23,7 +23,7 @@ public class MenuButtonController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        
 	}
 
     public void ShowGameOver(){
@@ -71,8 +71,17 @@ public class MenuButtonController : MonoBehaviour {
 
     public void ShowPause(){
         GetOnScreenMenus();
-        pauseMenu.SetActive(true);
-        optionsMenu.SetActive(false);
+        if (pauseMenu.activeSelf)
+        {
+            pauseMenu.SetActive(false);
+            optionsMenu.SetActive(false);
+            Time.timeScale = 1;
+            return;
+        }else{
+            pauseMenu.SetActive(true);
+            optionsMenu.SetActive(false);
+            Time.timeScale = 0;
+        }
     }
 
     public void ShowOptions(){
@@ -123,6 +132,11 @@ public class MenuButtonController : MonoBehaviour {
         GetMenusAndSubMenus();
         gunShop.transform.GetChild(0).gameObject.SetActive(false);
         gunShop.transform.GetChild(1).gameObject.SetActive(true);
+    }
+
+    public void HidePauseOptions(){
+        optionsMenu.SetActive(false);
+        pauseMenu.SetActive(true);
     }
 
     public void GetMenusAndSubMenus(){

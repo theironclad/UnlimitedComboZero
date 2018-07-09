@@ -26,13 +26,12 @@ public class EnemyProjectile : MonoBehaviour {
         GameObject go = col.gameObject;
         if (go.GetComponent<PlayerController>())
         {
-            ec.DoDamage();
+            ec.DoDamage(2);
             Destroy(gameObject);
         }
 
         if (go.GetComponent<EnemyProjectile>())
         {
-            print("Hitting projectile");
             Physics.IgnoreCollision(go.GetComponent<Collider>(), GetComponent<Collider>());
         }
     }   

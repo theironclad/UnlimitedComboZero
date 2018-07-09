@@ -709,6 +709,8 @@ MonoBehaviour:
   playerShop: {fileID: 0}
   gunShop: {fileID: 0}
   secretShop: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
 --- !u!1 &343119730
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,7 +1670,7 @@ MonoBehaviour:
   levelMusicArray:
   - {fileID: 0}
   - {fileID: 8300000, guid: a0e961c9d9b0541eeab2889a4d9333c5, type: 3}
-  - {fileID: 8300000, guid: a11c9db6e30d6415e80bbfe80d0955ca, type: 3}
+  - {fileID: 0}
   audioSource: {fileID: 0}
   musicPlaying: 0
 --- !u!4 &1041474404
@@ -2279,6 +2281,8 @@ MonoBehaviour:
   playerShop: {fileID: 0}
   gunShop: {fileID: 0}
   secretShop: {fileID: 0}
+  pauseMenu: {fileID: 0}
+  optionsMenu: {fileID: 0}
 --- !u!1 &1335944602
 GameObject:
   m_ObjectHideFlags: 0
@@ -2783,8 +2787,9 @@ MonoBehaviour:
   Instance: {fileID: 0}
   aSource: {fileID: 1578168716}
   enemyDeath: {fileID: 8300000, guid: 9fb1c732941794fa1a3257fab06d050c, type: 3}
-  playerDeath: {fileID: 8300000, guid: 4b1846e55f2d34a55adc184495feb7cc, type: 3}
+  playerDeath: {fileID: 8300000, guid: 9b78ca4c812a24425b348484e3594e7c, type: 3}
   enemyAppear: {fileID: 8300000, guid: 2ecf90319df7947edb900ba8b92f0ad6, type: 3}
+  playerHit: {fileID: 8300000, guid: b51495cd7ba7e4656a7d3716af0b6967, type: 3}
 --- !u!82 &1578168716
 AudioSource:
   m_ObjectHideFlags: 0

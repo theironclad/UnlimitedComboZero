@@ -65,22 +65,25 @@ public class Spawner : MonoBehaviour {
    void RandomColor(int stageNumber){
         if (stageNumber>765)
         {
-            stageNumber = 765;
+            colors[0] = 255;
+            colors[1] = 255;
+            colors[2] = 255;
+            return;
         }
 
-        int r=255;
-        int g=255;
-        int b=255;
+        //int r=255;
+        //int g=255;
+        //int b=255;
 
         int rOne = Random.Range(0, stageNumber);
-        stageNumber -= rOne;
+        //stageNumber -= rOne;
         int rTwo = Random.Range(0, stageNumber);
-        stageNumber -= rTwo;
+        //stageNumber -= rTwo;
         int rThree = stageNumber;
 
-        colors[0] = r - rOne;
-        colors[1] = g - rTwo;
-        colors[2] = b - rThree;
+        colors[0] = 255 - rOne;
+        colors[1] = 255 - rTwo;
+        colors[2] = 255 - rThree;
 
     }
 }
