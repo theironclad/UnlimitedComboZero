@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour {
         pauseMenu = GameObject.Find("OnScreenMenu").transform.GetChild(2).gameObject;
         optionsMenu = GameObject.Find("OnScreenMenu").transform.GetChild(3).gameObject;
         Invoke("LoadPlayer", 0.05f);
+        gmi.inGame = true;
 	}
 	
 	// Update is called once per frame
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour {
             transform.LookAt(new Vector3(lookPoint.x,transform.position.y,lookPoint.z));
         }
                
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&&playerHP>0)
         {
             gun.isFiring=true;
         }
@@ -49,7 +50,7 @@ public class PlayerController : MonoBehaviour {
             gun.isFiring = false;
         }
 
-        if (Input.GetMouseButtonDown(1)&&gmi.lStats.spreadUnlocked)
+        if (Input.GetMouseButtonDown(1)&&gmi.lStats.spreadUnlocked && playerHP>0)
         {
             gun.spreadFire = true;
         }
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour {
             gun.spreadFire = false;
         }
 
-        if (gmi.lStats.playerRegenAP>1)
+        if (gmi.lStats.playerRegenAP>1 && playerHP >0)
         {
             regenTimer += Time.deltaTime;
             if (regenTimer >=1 && playerHP < gmi.lStats.currentPlayerHP)

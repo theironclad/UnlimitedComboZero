@@ -65,22 +65,24 @@ public class GunController : MonoBehaviour {
     }
 
     public void LoadNewLevelGun(){
+        print("New level gun");
         projectileSpeed = gmi.lStats.currentGunPS;
         fireRate = gmi.lStats.currentGunFR;
         dmg = gmi.lStats.currentGunPD;
     }
 
     public void LoadGun(){
-        if (gmi.inGame)
-        {
-            LoadNewLevelGun();
-        }else if(!gmi.inGame){
+        //if (gmi.alreadyInGame)
+        //{
+        //    LoadNewLevelGun();
+        //}else if(gmi.inGame){
+            print("Load gun only");
             projectileSpeed = gmi.lStats.gunPSAP * gmi.lStats.currentGunPS;
             fireRate = gmi.lStats.currentGunFR/gmi.lStats.gunFRAP;
             spreadFireRate = gmi.lStats.currentGunFR / gmi.lStats.spreadFRAP;
             dmg = gmi.lStats.gunPDAP * gmi.lStats.currentGunPD;
             print("Gun damage : " + dmg);
-        }
+        //}
     }
 
     public void FireSpread(){

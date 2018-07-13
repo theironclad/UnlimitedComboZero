@@ -27,9 +27,8 @@ public class EnemyController : MonoBehaviour {
     private MusicManager mm;
     private SFXManager sfxManager;
     private EnemyGun eg;
-    private EnemyController[] ec;
-    private Rigidbody[] rbs;
     private PlayerController target;
+    private Vector3 targetPos;
     private SpawnerController sc;
     private GameManager gmi;
 
@@ -108,8 +107,11 @@ public class EnemyController : MonoBehaviour {
         if ((p.playerHP - strength*multiplier)<=0)
         {
             p.playerHP = 0;
-            DestroyPlayer(p);
+            sfxManager.PlayPlayerDeath();
+            isAttacking = false;
             sc.spawningEnemies = false;
+            gmi.DestroyPlayer(p);
+
         }else{
             p.playerHP -= strength*multiplier;
             sfxManager.PlayPlayerHit();
@@ -130,38 +132,5 @@ public class EnemyController : MonoBehaviour {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    public void DestroyPlayer(PlayerController pc){
 
-        ec = GameObject.Find("EnemiesContainer").GetComponentsInChildren<EnemyController>();
-        foreach(EnemyController e in ec){
-            e.canShoot = false;
-        }
-        rbs = GameObject.Find("EnemiesContainer").GetComponentsInChildren<Rigidbody>();
-        foreach(Rigidbody rb in rbs){
-            rb.useGravity = false;
-        }
-        mm.audioSource.Stop();
-        SpawnPlayerDeathParticles();
-        gmi.lStats.playerLivesLost++;
-        Destroy(pc.gameObject);
-        isAttacking = false;
-        sfxManager.PlayPlayerDeath();
-    }
-
-    public void SpawnPlayerDeathParticles()
-    {
-        if (target)
-        {
-            ParticleSystem newParticles = Instantiate(pps, target.transform.position, Quaternion.identity);
-            float desTime = newParticles.main.duration;
-            Destroy(newParticles, desTime);
-            Invoke("CallGO", desTime);
-            gmi.inGame = false;
-        }
-
-    }
-
-    public void CallGO(){
-        gmi.GameOverActive();
-    }
 }

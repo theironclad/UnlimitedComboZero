@@ -28,32 +28,11 @@ public class MusicManager : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
 	}
 	
-	// Update is called once per frame
+	
 	void Update () {
-        //if (Instance == null)
-        //{
-        //    Instance = this;
-        //}
-        //else if (Instance != this)
-        //{
-        //    Destroy(gameObject);
-        //}
+        
 	}
-
-	//void OnLevelWasLoaded(int level)
-	//{
-    //    print(level);
-
-    //    AudioClip thisLevelMusic = levelMusicArray[level];
-    //    if (thisLevelMusic && (musicPlaying == false))
-    //    {
-    //        audioSource.clip = thisLevelMusic;
-    //        audioSource.loop = true;
-    //        audioSource.Play();
-    //        musicPlaying = true;
-    //    }
-    //}
-
+    
     public void PlaySceneMusic(Scene scene){
         string sceneName = scene.name;
         switch (sceneName)

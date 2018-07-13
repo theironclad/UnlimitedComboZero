@@ -13,13 +13,17 @@ public class GameManager : MonoBehaviour {
     public PersistentStatsController lStats = new PersistentStatsController();
     public GameObject onScreenMenu;
 
+    public ParticleSystem pps;
     public AudioMixer am;
+    private Rigidbody[] rbs;
+    private Vector3 playerPos;
     private MusicManager mm;
     private PointsController pc;
     private SpawnerController spawnCtrl;
     private GameManager gmi;
 
     public bool inGame=false;
+    public bool alreadyInGame = false;
 
 	private void Awake()
 	{
@@ -62,6 +66,7 @@ public class GameManager : MonoBehaviour {
 
     public void SetPSDefaults(){
         GameManager.Instance.lStats.playerStartingHP = 10;
+        GameManager.Instance.lStats.currentPlayerHP = 10;
         GameManager.Instance.lStats.playerHPAP = 1;
         GameManager.Instance.lStats.playerRegenAP = 1;
         GameManager.Instance.lStats.atPoints = 0;
@@ -177,4 +182,47 @@ public class GameManager : MonoBehaviour {
         am.SetFloat("bgmVolume", lStats.bgmVolumeSet);
         am.SetFloat("masterVolume", lStats.masterVolume);
     }
+
+
+    public void DestroyPlayer(PlayerController player)
+    {
+        inGame = false;
+        alreadyInGame = false;
+        playerPos = player.transform.position;
+        EnemyController[] ec = GameObject.Find("EnemiesContainer").GetComponentsInChildren<EnemyController>();
+        foreach (EnemyController e in ec)
+        {
+            e.canShoot = false;
+        }
+
+        rbs = GameObject.Find("EnemiesContainer").GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.useGravity = false;
+        }
+        mm.audioSource.Stop();
+
+        Invoke("GameOverActive", 2.5f);
+        SpawnPlayerDeathParticles();
+        gmi.lStats.playerLivesLost++;
+        Destroy(player.gameObject);
+    }
+
+    public void SpawnPlayerDeathParticles()
+    {
+        ParticleSystem newParticles = Instantiate(pps, playerPos, Quaternion.identity);
+        float desTime = newParticles.main.duration;
+        EnemyProjectile[] projectiles = GameObject.Find("ProjectilesContainer").GetComponentsInChildren<EnemyProjectile>();
+        foreach (EnemyProjectile projectile in projectiles)
+        {
+            Destroy(projectile.gameObject);
+        }
+        Destroy(newParticles, desTime);
+    }
+
+    public void CallGO()
+    {
+        GameOverActive();
+    }
+
 }

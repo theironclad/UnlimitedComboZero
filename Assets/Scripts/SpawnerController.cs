@@ -63,8 +63,9 @@ public class SpawnerController : MonoBehaviour {
 	}
 
     void StageClear(){
-        if (allEnemiesSpawned && inScene <=0)
+        if (allEnemiesSpawned && inScene <=0 && gmi.inGame == true)
         {
+            gmi.alreadyInGame = true;
             gmi.lStats.currentStage++;
             gmi.lStats.currentCombo = cc.comboCount;
             gmi.lStats.currentComboTimer = cc.comboTimer;
@@ -77,23 +78,13 @@ public class SpawnerController : MonoBehaviour {
         int remaining = maxSpawn - totalSpawned;
         if (number <=remaining)
         {
-            //for (int i = 0; i < number; i++)
-            //{
             totalSpawned += number;
             StartCoroutine(_spawnWait(number));
-                //int spawnerNumber = Random.Range(0, 3);
-                //allSpawners[spawnerNumber].SpawnEnemy();
-                //totalSpawned++;
-
-            //}
         }else{
             for (int i = 0; i < remaining; i++)
             {
                 totalSpawned += remaining;
                 _spawnWait(remaining);
-                //int spawnerNumber = Random.Range(0, 4);
-                //allSpawners[spawnerNumber].SpawnEnemy();
-                //totalSpawned++;
             }
             spawningEnemies = false;
         }
@@ -102,10 +93,9 @@ public class SpawnerController : MonoBehaviour {
     public IEnumerator _spawnWait(int number){
         int i = 0;
         while(i<number){
-            yield return new WaitForSeconds(.001f);
+            yield return new WaitForSeconds(.1f);
             int spawnerNumber = Random.Range(0, 4);
             allSpawners[spawnerNumber].SpawnEnemy();
-            //totalSpawned++;
             i++;
         }
     }

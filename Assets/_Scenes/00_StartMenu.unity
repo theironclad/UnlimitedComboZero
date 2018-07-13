@@ -2966,6 +2966,7 @@ MonoBehaviour:
     sfxVolumeSet: 0
     bgmVolumeSet: 0
   onScreenMenu: {fileID: 0}
+  pps: {fileID: 198040228965146232, guid: 8e41e4d221d9545c1b109f4eb95f2b8a, type: 2}
   am: {fileID: 24100000, guid: c41a6a6722bb54c1593eefaef6c673e5, type: 2}
   inGame: 0
 --- !u!4 &1599670009

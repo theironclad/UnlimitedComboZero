@@ -27,6 +27,7 @@ public class MenuButtonController : MonoBehaviour {
 	}
 
     public void ShowGameOver(){
+        print("Gameover showing");
         GetOnScreenMenus();
         gameOverMenu.SetActive(true);
         shopMenu.SetActive(false);
