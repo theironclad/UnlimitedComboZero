@@ -52,6 +52,7 @@ public class ProjectileController : MonoBehaviour {
 
     void DestroyEnemy(GameObject obj){
         EnemyController oec = obj.GetComponent<EnemyController>();
+        Animator a = obj.GetComponent<Animator>();
         gmi.lStats.enemiesDefeated++;
         gmi.lStats.currentPoints += (oec.pointValue * gmi.lStats.currentStage);
         gmi.lStats.atPoints += (oec.pointValue);

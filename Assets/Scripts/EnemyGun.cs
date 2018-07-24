@@ -16,15 +16,15 @@ public class EnemyGun : MonoBehaviour {
 
     public EnemyController ec;
 
-    private ProjectilesContainer pc;
+    public ProjectilesContainer pc;
     private GameManager gmi;
 
     // Use this for initialization
     void Start()
     {
         gmi = GameManager.Instance;
-        pc = FindObjectOfType<ProjectilesContainer>();
-        ec = GetComponentInParent<EnemyController>();
+        pc = GameObject.Find("ProjectilesContainer").GetComponent<ProjectilesContainer>();
+        //ec = GetComponentInParent<EnemyController>();
         muzzle = transform;
         Invoke("LoadGun", 0.5f);
     }

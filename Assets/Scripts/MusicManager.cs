@@ -11,7 +11,7 @@ public class MusicManager : MonoBehaviour {
 
     public bool musicPlaying = false;
 
-	void Awake()
+	private void Awake()
 	{
         if (Instance==null)
         {

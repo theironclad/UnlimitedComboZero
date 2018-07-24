@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour {
         pauseMenu = GameObject.Find("OnScreenMenu").transform.GetChild(2).gameObject;
         optionsMenu = GameObject.Find("OnScreenMenu").transform.GetChild(3).gameObject;
         Invoke("LoadPlayer", 0.05f);
-        gmi.inGame = true;
+
 	}
 	
 	// Update is called once per frame
@@ -109,8 +109,10 @@ public class PlayerController : MonoBehaviour {
         {
             LoadNewLevelPlayer();
         }else if(!gmi.inGame){
+            print("LP ! in game");
             playerHP = gmi.lStats.playerStartingHP * gmi.lStats.playerHPAP;
             gmi.lStats.currentPlayerHP = playerHP;
+            gmi.inGame = true;
         }
     }
 }

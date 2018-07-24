@@ -99,6 +99,7 @@ public class MenuButtonController : MonoBehaviour {
     }
 
     public void QuitGame(){
+        gmi.DestroySounds();
         gmi.RestartGame();
         GameManager.SaveGame("Player");
         SceneManager.LoadScene("00_StartMenu");

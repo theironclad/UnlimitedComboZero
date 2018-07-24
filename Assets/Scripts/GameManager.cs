@@ -38,21 +38,32 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         gmi = GameManager.Instance;
 
-        mm = FindObjectOfType<MusicManager>();
+        GetMM();
         FindPointsController();
         LoadGame("Player");
         SetVolumes();
         CalculateCurrentStage();
-        spawnCtrl = FindObjectOfType<SpawnerController>();
+
     }
 
     public void GameOverActive(){
+        spawnCtrl = FindObjectOfType<SpawnerController>();
+        spawnCtrl.spawningEnemies = false;
         FindPointsController();
         pc.CalculatePoints();
         FindGameOver();
         onScreenMenu.SetActive(true);
         mm.musicPlaying = false;
         mm.audioSource.Stop();
+        EnemyController[] ec = GameObject.Find("EnemiesContainer").GetComponentsInChildren<EnemyController>();
+        foreach (EnemyController e in ec)
+        {
+            e.canShoot = false;
+        }
+        if (mm.audioSource.isPlaying)
+        {
+            mm.audioSource.Stop();
+        }
     }
 
     void FindGameOver()
@@ -111,6 +122,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void RestartGame(){
+        
         lStats.currentPoints = 0;
         CalculateCurrentStage();
         lStats.spThisRound=0;
@@ -186,9 +198,17 @@ public class GameManager : MonoBehaviour {
 
     public void DestroyPlayer(PlayerController player)
     {
+        GetMM();
         inGame = false;
         alreadyInGame = false;
         playerPos = player.transform.position;
+        ComboController cc = GameObject.Find("Combo_Text").GetComponent<ComboController>();
+        cc.enabled = !cc.enabled;
+        ProjectileController[] projectiles = GameObject.Find("ProjectilesContainer").GetComponentsInChildren<ProjectileController>();
+        foreach (ProjectileController p in projectiles){
+            p.enabled = !p.enabled;
+            p.gameObject.SetActive(false);
+        }
         EnemyController[] ec = GameObject.Find("EnemiesContainer").GetComponentsInChildren<EnemyController>();
         foreach (EnemyController e in ec)
         {
@@ -200,7 +220,11 @@ public class GameManager : MonoBehaviour {
         {
             rb.useGravity = false;
         }
-        mm.audioSource.Stop();
+
+        if (mm.audioSource.isPlaying)
+        {
+            mm.audioSource.Stop();
+        }
 
         Invoke("GameOverActive", 2.5f);
         SpawnPlayerDeathParticles();
@@ -223,6 +247,17 @@ public class GameManager : MonoBehaviour {
     public void CallGO()
     {
         GameOverActive();
+    }
+
+    public void GetMM(){
+        mm = FindObjectOfType<MusicManager>();
+    }
+
+    public void DestroySounds(){
+        GameObject mpp = GameObject.Find("MusicManager");
+        GameObject spp = GameObject.Find("SFXManager");
+        Destroy(mpp);
+        Destroy(spp);
     }
 
 }

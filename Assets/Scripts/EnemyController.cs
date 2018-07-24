@@ -23,24 +23,21 @@ public class EnemyController : MonoBehaviour {
     public AudioClip deathSound;
 
     private enum DmgType{projectile,melee};
-    private ComboController cc;
+    //private ComboController cc;
     private MusicManager mm;
     private SFXManager sfxManager;
-    private EnemyGun eg;
+    public EnemyGun eg;
     private PlayerController target;
     private Vector3 targetPos;
-    private SpawnerController sc;
+    //private SpawnerController sc;
     private GameManager gmi;
 
 	// Use this for initialization
 	void Start () {
         gmi = GameManager.Instance;
-        eg = GetComponentInChildren<EnemyGun>();
-        mm = FindObjectOfType<MusicManager>();
-        sfxManager = FindObjectOfType<SFXManager>();
-        target = FindObjectOfType<PlayerController>();
-        sc = FindObjectOfType<SpawnerController>();
-        cc = FindObjectOfType<ComboController>();
+        mm = GameObject.Find("MusicManager").GetComponent<MusicManager>();
+        sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
+        target = GameObject.Find("Player").GetComponent<PlayerController>();
 
         if (gmi.lStats.currentStage>5)
         {
@@ -96,24 +93,24 @@ public class EnemyController : MonoBehaviour {
     }
 
     public void DoDamage(int multiplier){
-        PlayerController p = FindObjectOfType<PlayerController>();
+        //PlayerController p = FindObjectOfType<PlayerController>();
 
-        if (!p)
+        if (!target)
         {
             speed = 0;
             return;
         }
 
-        if ((p.playerHP - strength*multiplier)<=0)
+        if ((target.playerHP - strength*multiplier)<=0)
         {
-            p.playerHP = 0;
+            target.playerHP = 0;
             sfxManager.PlayPlayerDeath();
             isAttacking = false;
-            sc.spawningEnemies = false;
-            gmi.DestroyPlayer(p);
+            //sc.spawningEnemies = false;
+            gmi.DestroyPlayer(target);
 
         }else{
-            p.playerHP -= strength*multiplier;
+            target.playerHP -= strength*multiplier;
             sfxManager.PlayPlayerHit();
         }
 

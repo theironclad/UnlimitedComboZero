@@ -552,8 +552,10 @@ MonoBehaviour:
     sfxVolumeSet: 0
     bgmVolumeSet: 0
   onScreenMenu: {fileID: 0}
+  pps: {fileID: 0}
   am: {fileID: 0}
   inGame: 0
+  alreadyInGame: 0
 --- !u!4 &115915743
 Transform:
   m_ObjectHideFlags: 0
