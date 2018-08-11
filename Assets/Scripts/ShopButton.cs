@@ -7,6 +7,8 @@ public class ShopButton : MonoBehaviour {
 
     public int cost;
     public int level;
+    public GameObject parentObj;
+    public ShopController shopCtrl;
     public Text[] objTexts;
 
     private GameManager gmi;
@@ -23,8 +25,11 @@ public class ShopButton : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
-	}
+        if (level != gmi.GetStat(name))
+        {
+            UpdateStatDisplay();
+        }
+    }
 
     public void UpdateStatDisplay(){
         UpdateCostLevel();
@@ -37,4 +42,5 @@ public class ShopButton : MonoBehaviour {
         cost = gmi.GetStat("cost_" + name);
         level = gmi.GetStat(name);
     }
+
 }

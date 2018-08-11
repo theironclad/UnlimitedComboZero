@@ -13,8 +13,10 @@ public class PersistentStatsController{
 
     [Header("Player Abilities")]
     public int playerHPAP;
+    public int current_playerHPAP;
     public int playerSSAP;
     public int playerRegenAP;
+    public int current_playerRegenAP;
     public int spawnAddAP;
 
     [Header("Gun Stats")]

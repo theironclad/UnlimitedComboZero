@@ -110,7 +110,13 @@ public class PlayerController : MonoBehaviour {
             LoadNewLevelPlayer();
         }else if(!gmi.inGame){
             print("LP ! in game");
-            playerHP = gmi.lStats.playerStartingHP * gmi.lStats.playerHPAP;
+            if (gmi.lStats.current_playerHPAP>0)
+            {
+                playerHP = gmi.lStats.playerStartingHP * gmi.lStats.current_playerHPAP;
+            }else{
+                playerHP = gmi.lStats.playerStartingHP * gmi.lStats.playerHPAP;
+            }
+
             gmi.lStats.currentPlayerHP = playerHP;
             gmi.inGame = true;
         }

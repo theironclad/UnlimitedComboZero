@@ -179,6 +179,18 @@ public class GameManager : MonoBehaviour {
         fI.SetValue(lStats, (statChange +=modifier));
     }
 
+    public void SetStat(string statName, int value){
+        string currentStatName = "current_" + statName;
+        currentStatName = currentStatName.Replace("_StatManager", "");
+        print(currentStatName);
+        int statChange = (int)lStats.GetType().GetField(currentStatName).GetValue(lStats);
+        print(statChange);
+        print(value);
+        System.Reflection.FieldInfo fI = lStats.GetType().GetField(currentStatName);
+        print(fI);
+        fI.SetValue(lStats, (value));
+    }
+
     public int GetStat(string statname){
         int stat = (int)lStats.GetType().GetField(statname).GetValue(lStats);
         return stat;

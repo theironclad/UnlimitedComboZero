@@ -14,6 +14,7 @@ public class MenuButtonController : MonoBehaviour {
     public GameObject optionsMenu;
     private MusicManager mm;
     private GameManager gmi;
+    public MenuController mc;
 
 	// Use this for initialization
 	void Start () {
@@ -106,10 +107,12 @@ public class MenuButtonController : MonoBehaviour {
     }
 
     void GetOnScreenMenus(){
-        gameOverMenu = GameObject.Find("OnScreenMenu").transform.GetChild(0).gameObject;
-        shopMenu = GameObject.Find("OnScreenMenu").transform.GetChild(1).gameObject;
-        pauseMenu = GameObject.Find("OnScreenMenu").transform.GetChild(2).gameObject;
-        optionsMenu = GameObject.Find("OnScreenMenu").transform.GetChild(3).gameObject;
+        //gameOverMenu = GameObject.Find("OnScreenMenu").transform.GetChild(0).gameObject;
+        gameOverMenu = mc.topMenus[0];
+        //shopMenu = GameObject.Find("OnScreenMenu").transform.GetChild(1).gameObject;
+        shopMenu = mc.topMenus[1];
+        pauseMenu = mc.topMenus[2];
+        optionsMenu = mc.topMenus[3];
 
     }
 
@@ -118,9 +121,9 @@ public class MenuButtonController : MonoBehaviour {
         {
             GameObject shopPanel = shopMenu.transform.Find("Shop_Panel").gameObject;
             print(shopPanel);
-            playerShop = shopPanel.transform.GetChild(0).gameObject;
-            gunShop = shopPanel.transform.GetChild(1).gameObject;
-            secretShop = shopPanel.transform.GetChild(2).gameObject;
+            playerShop = mc.midMenus[2];
+            gunShop = mc.midMenus[1];
+            secretShop = mc.midMenus[3];
         }
     }
 
