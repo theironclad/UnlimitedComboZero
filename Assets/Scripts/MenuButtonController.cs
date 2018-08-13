@@ -12,6 +12,7 @@ public class MenuButtonController : MonoBehaviour {
     public GameObject secretShop;
     public GameObject pauseMenu;
     public GameObject optionsMenu;
+    public GameObject statManager;
     private MusicManager mm;
     private GameManager gmi;
     public MenuController mc;
@@ -20,12 +21,7 @@ public class MenuButtonController : MonoBehaviour {
 	void Start () {
         mm = FindObjectOfType<MusicManager>();
         gmi = GameManager.Instance;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        
-	}
+	}	
 
     public void ShowGameOver(){
         print("Gameover showing");
@@ -51,24 +47,35 @@ public class MenuButtonController : MonoBehaviour {
             gunShop.transform.Find("SpreadGun_Button").gameObject.SetActive(true);
         }
         secretShop.SetActive(false);
+        statManager.SetActive(false);
     }
 
     public void ShowPlayerShop()
     {
-        GetOnScreenMenus();
-        GetShopMenus();
+        GetMenusAndSubMenus();
         playerShop.SetActive(true);
         gunShop.SetActive(false);
         secretShop.SetActive(false);
+        statManager.SetActive(false);
     }
+
+    public void ShowStatManager(){
+        GetMenusAndSubMenus();
+        playerShop.SetActive(false);
+        gunShop.SetActive(false);
+        secretShop.SetActive(false);
+        statManager.GetComponentInChildren<StatManager>().statString = transform.parent.name;
+        statManager.SetActive(true);
+    }
+
 
     public void ShowSecretShop()
     {
-        GetOnScreenMenus();
-        GetShopMenus();
+        GetMenusAndSubMenus();
         playerShop.SetActive(false);
         gunShop.SetActive(false);
         secretShop.SetActive(true);
+        statManager.SetActive(false);
     }
 
     public void ShowPause(){
@@ -119,11 +126,18 @@ public class MenuButtonController : MonoBehaviour {
     void GetShopMenus(){
         if (shopMenu)
         {
-            GameObject shopPanel = shopMenu.transform.Find("Shop_Panel").gameObject;
-            print(shopPanel);
+            //GameObject shopPanel = shopMenu.transform.Find("Shop_Panel").gameObject;
+            //print(shopPanel);
             playerShop = mc.midMenus[2];
             gunShop = mc.midMenus[1];
             secretShop = mc.midMenus[3];
+            statManager = mc.midMenus[0];
+        }
+    }
+
+    void CloseMidMenus(){
+        foreach(GameObject go in mc.midMenus){
+            go.SetActive(false);
         }
     }
 

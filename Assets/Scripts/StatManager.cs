@@ -59,7 +59,7 @@ public class StatManager : MonoBehaviour {
         }
     }
 
-    public void NewSetupManager(string statName){      
+    public void NewSetupManager(string statName){
         SetupText(statName);
         SetupSlider(statName);
         currentStatString = statName;
@@ -75,5 +75,4 @@ public class StatManager : MonoBehaviour {
         managerTexts[4].text = gmi.GetStat("current_" + stat).ToString();
         managerTexts[6].text = gmi.GetStat(stat).ToString();
     }
-
 }

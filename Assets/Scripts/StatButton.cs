@@ -21,13 +21,6 @@ public class StatButton : MonoBehaviour
 
     }
 
-    public void CallMM()
-    {
-        buttonName = transform.parent.name;
-        string command = "open";
-        sc.StatManagerManager(buttonName, command);
-    }
-
     public void CloseSM(){
         buttonName = transform.parent.name;
         string toClose = buttonName.Replace("_StatManager","");
