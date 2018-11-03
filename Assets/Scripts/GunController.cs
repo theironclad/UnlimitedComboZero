@@ -5,6 +5,7 @@ using UnityEngine;
 public class GunController : MonoBehaviour {
 
     public ProjectileController projectilePrefab;
+    public ProjectileController spreadPrefab;
     public Transform muzzle;
 
     public bool isFiring;
@@ -61,28 +62,23 @@ public class GunController : MonoBehaviour {
             newBullet.transform.SetParent(pc.transform, true);
             newBullet.speed = projectileSpeed;
             newBullet.dmg = dmg;
+            gmi.lStats.defaultGunShotsFired++;
+            gmi.lStats.totalShotsFired++;
         }
     }
 
     public void LoadNewLevelGun(){
-        print("New level gun");
         projectileSpeed = gmi.lStats.currentGunPS;
         fireRate = gmi.lStats.currentGunFR;
         dmg = gmi.lStats.currentGunPD;
     }
 
     public void LoadGun(){
-        //if (gmi.alreadyInGame)
-        //{
-        //    LoadNewLevelGun();
-        //}else if(gmi.inGame){
-            print("Load gun only");
             projectileSpeed = gmi.lStats.gunPSAP * gmi.lStats.currentGunPS;
             fireRate = gmi.lStats.currentGunFR/gmi.lStats.gunFRAP;
             spreadFireRate = gmi.lStats.currentGunFR / gmi.lStats.spreadFRAP;
             dmg = gmi.lStats.gunPDAP * gmi.lStats.currentGunPD;
             print("Gun damage : " + dmg);
-        //}
     }
 
     public void FireSpread(){
@@ -94,11 +90,11 @@ public class GunController : MonoBehaviour {
 
             shotCounter = spreadFireRate;
 
-            ProjectileController newBullet1 = Instantiate(projectilePrefab, muzzle.position, muzzle.rotation);
-            ProjectileController newBullet2 = Instantiate(projectilePrefab, muzzle.position, muzzle.rotation);
-            ProjectileController newBullet3 = Instantiate(projectilePrefab, muzzle.position, muzzle.rotation);
-            ProjectileController newBullet4 = Instantiate(projectilePrefab, muzzle.position, muzzle.rotation);
-            ProjectileController newBullet5 = Instantiate(projectilePrefab, muzzle.position, muzzle.rotation);
+            ProjectileController newBullet1 = Instantiate(spreadPrefab, muzzle.position, muzzle.rotation);
+            ProjectileController newBullet2 = Instantiate(spreadPrefab, muzzle.position, muzzle.rotation);
+            ProjectileController newBullet3 = Instantiate(spreadPrefab, muzzle.position, muzzle.rotation);
+            ProjectileController newBullet4 = Instantiate(spreadPrefab, muzzle.position, muzzle.rotation);
+            ProjectileController newBullet5 = Instantiate(spreadPrefab, muzzle.position, muzzle.rotation);
 
             ProjectileController[] spreadBullets = new ProjectileController[5] { newBullet1, newBullet2, newBullet3, newBullet4, newBullet5 };
 
@@ -113,6 +109,9 @@ public class GunController : MonoBehaviour {
             newBullet2.transform.Rotate(0, -20, 0);
             newBullet4.transform.Rotate(0, 20, 0);
             newBullet5.transform.Rotate(0, 30, 0);
+
+            gmi.lStats.spreadGunShotsFired += 5;
+            gmi.lStats.totalShotsFired += 5;
         }
     }
 }

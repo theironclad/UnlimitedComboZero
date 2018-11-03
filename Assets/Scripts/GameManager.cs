@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.Audio;
@@ -17,7 +13,9 @@ public class GameManager : MonoBehaviour {
     public AudioMixer am;
     private Rigidbody[] rbs;
     private Vector3 playerPos;
-    private MusicManager mm;
+    public MusicManager mm;
+    public SFXManager sfxm;
+    public GameObject player;
     private PointsController pc;
     private SpawnerController spawnCtrl;
     private GameManager gmi;
@@ -38,6 +36,7 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         gmi = GameManager.Instance;
 
+        CheckForSounds();
         GetMM();
         FindPointsController();
         LoadGame("Player");
@@ -180,13 +179,11 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SetStat(string statName, int value){
-        string currentStatName = "current_" + statName;
-        currentStatName = currentStatName.Replace("_StatManager", "");
-        print(currentStatName);
-        int statChange = (int)lStats.GetType().GetField(currentStatName).GetValue(lStats);
+        print(statName + " from Set Stat");
+        int statChange = (int)lStats.GetType().GetField(statName).GetValue(lStats);
         print(statChange);
         print(value);
-        System.Reflection.FieldInfo fI = lStats.GetType().GetField(currentStatName);
+        System.Reflection.FieldInfo fI = lStats.GetType().GetField(statName);
         print(fI);
         fI.SetValue(lStats, (value));
     }
@@ -270,6 +267,23 @@ public class GameManager : MonoBehaviour {
         GameObject spp = GameObject.Find("SFXManager");
         Destroy(mpp);
         Destroy(spp);
+    }
+
+    public void CheckForSounds()
+    {
+        GameObject fmm = GameObject.Find("MusicManager");
+        GameObject fsfxm = GameObject.Find("SFXManager");
+        if (!fmm)
+        {
+            MusicManager newMM = Instantiate(mm, gmi.transform.parent);
+            mm = newMM;
+        }
+        if (!fsfxm)
+        {
+            Debug.Log("spawning SFX Manager");
+            SFXManager newSFXM = Instantiate(sfxm, gmi.transform.parent);
+            sfxm = newSFXM;
+        }
     }
 
 }

@@ -19,6 +19,15 @@ public class PlayerHealthController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        playerHealthText.text = "" + pc.playerHP;
+        UpdatePlayerHealthText();
 	}
+
+    public void UpdatePlayerHealthText(){
+        if (pc)
+        {
+            playerHealthText.text = "" + pc.playerHP;
+        }else{
+            playerHealthText.text = "0";
+        }
+    }
 }

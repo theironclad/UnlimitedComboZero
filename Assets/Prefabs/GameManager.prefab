@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1699380617355426}
+  m_IsPrefabAsset: 1
+--- !u!1 &1699380617355426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4040923458149176}
+  - component: {fileID: 114073963004382432}
+  - component: {fileID: 114020617711902962}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4040923458149176
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699380617355426}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114020617711902962
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699380617355426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1facb8b0a68a948589a84ebc09349409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114073963004382432
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699380617355426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90ae333c043fb4a36b5e8def38c8df83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lStats:
+    playerLivesLost: 0
+    playerShotsFired: 0
+    atPoints: 0
+    playerStartingHP: 0
+    playerHPAP: 0
+    playerSSAP: 0
+    playerRegenAP: 0
+    spawnAddAP: 0
+    shieldUnlocked: 0
+    playerShieldAP: 0
+    comboTimerMaxAP: 0
+    gunFRAP: 0
+    gunPSAP: 0
+    gunPDAP: 0
+    spreadUnlocked: 0
+    spreadFRAP: 0
+    spreadPSAP: 0
+    spreadPDAP: 0
+    current_playerHPAP: 0
+    current_playerRegenAP: 0
+    current_playerShieldAP: 0
+    current_spawnAddAP: 0
+    current_spFactorAP: 0
+    current_playerSSAP: 0
+    current_comboTimerMaxAP: 0
+    current_gunFRAP: 0
+    current_gunPSAP: 0
+    current_gunPDAP: 0
+    current_spreadFRAP: 0
+    current_spreadPSAP: 0
+    current_spreadPDAP: 0
+    gunStartingPS: 0
+    gunStartingFR: 0
+    gunStartingPD: 0
+    defaultGunKills: 0
+    spreadGunKills: 0
+    splashGunKills: 0
+    defaultGunShotsFired: 0
+    spreadGunShotsFired: 0
+    splashGunShotsFired: 0
+    totalShotsFired: 0
+    spThisRound: 0
+    spendablePoints: 0
+    spFactor: 0
+    spFactorAP: 0
+    highestCombo: 0
+    longestCombo: 0
+    currentCombo: 0
+    currentComboTimer: 0
+    highestStage: 0
+    startingStage: 0
+    enemiesDefeated: 0
+    shootersDefeated: 0
+    totalPurchases: 0
+    cost_playerHPAP: 0
+    cost_playerRegenAP: 0
+    cost_comboTimerMaxAP: 0
+    cost_spFactorAP: 0
+    cost_gunFRAP: 0
+    cost_gunPSAP: 0
+    cost_gunPDAP: 0
+    cost_spreadUnlock: 0
+    cost_spreadFRAP: 0
+    cost_spreadPSAP: 0
+    cost_spreadPDAP: 0
+    cost_playerSSAP: 0
+    cost_spawnAddAP: 0
+    currentPlayerHP: 0
+    currentGunPS: 0
+    currentGunFR: 0
+    currentGunPD: 0
+    currentPoints: 0
+    currentStage: 0
+    masterVolume: 0
+    sfxVolumeSet: 0
+    bgmVolumeSet: 0
+  onScreenMenu: {fileID: 0}
+  pps: {fileID: 198040228965146232, guid: 8e41e4d221d9545c1b109f4eb95f2b8a, type: 2}
+  am: {fileID: 24100000, guid: c41a6a6722bb54c1593eefaef6c673e5, type: 2}
+  mm: {fileID: 114532227720450188, guid: 81634aeacbe014c5692404ea6f8c20b9, type: 2}
+  sfxm: {fileID: 114065541057662536, guid: ae212bade4d504bf8b273999af5f0be5, type: 2}
+  inGame: 0
+  alreadyInGame: 0

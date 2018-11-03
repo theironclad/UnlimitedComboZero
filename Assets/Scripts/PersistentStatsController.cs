@@ -5,24 +5,23 @@ using System;
 
 [Serializable]
 public class PersistentStatsController{
+
+    [Header("Player")]
     [Header("Player Stats")]
     public int playerLivesLost;
     public int playerShotsFired;
     public int atPoints;
     public float playerStartingHP;
 
+    [Header("Abilities")]
     [Header("Player Abilities")]
     public int playerHPAP;
-    public int current_playerHPAP;
     public int playerSSAP;
     public int playerRegenAP;
-    public int current_playerRegenAP;
     public int spawnAddAP;
-
-    [Header("Gun Stats")]
-    public float gunStartingPS;
-    public float gunStartingFR;
-    public float gunStartingPD;
+    public bool shieldUnlocked;
+    public int playerShieldAP;
+    public int comboTimerMaxAP;
 
     [Header("Gun Abilities")]
     public int gunFRAP;
@@ -33,6 +32,34 @@ public class PersistentStatsController{
     public int spreadFRAP;
     public int spreadPSAP;
     public int spreadPDAP;
+
+    [Header("Current Ability Points")]
+    public int current_playerHPAP;
+    public int current_playerRegenAP;
+    public int current_playerShieldAP;
+    public int current_spawnAddAP;
+    public int current_spFactorAP;
+    public int current_playerSSAP;
+    public int current_comboTimerMaxAP;
+    public int current_gunFRAP;
+    public int current_gunPSAP;
+    public int current_gunPDAP;
+    public int current_spreadFRAP;
+    public int current_spreadPSAP;
+    public int current_spreadPDAP;
+
+    [Header("Stats")]
+    [Header("Gun Stats")]
+    public float gunStartingPS;
+    public float gunStartingFR;
+    public float gunStartingPD;
+    public int defaultGunKills;
+    public int spreadGunKills;
+    public int splashGunKills;
+    public int defaultGunShotsFired;
+    public int spreadGunShotsFired;
+    public int splashGunShotsFired;
+    public int totalShotsFired;
 
     [Header("Ability Point Stats")]
     public int spThisRound;
@@ -45,7 +72,6 @@ public class PersistentStatsController{
     public float longestCombo;
     public int currentCombo;
     public float currentComboTimer;
-    public int comboTimerMaxAP;
 
     [Header("Stage Stats")]
     public int highestStage;
@@ -53,6 +79,7 @@ public class PersistentStatsController{
 
     [Header("Enemy Stats")]
     public int enemiesDefeated;
+    public int shootersDefeated;
 
     [Header("Shop Stats")]
     public int totalPurchases;

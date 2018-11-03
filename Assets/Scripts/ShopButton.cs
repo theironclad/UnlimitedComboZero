@@ -12,8 +12,7 @@ public class ShopButton : MonoBehaviour {
     public Text[] objTexts;
 
     private GameManager gmi;
-
-	// Use this for initialization
+    	
 	void Start () {
         gmi = GameManager.Instance;
         objTexts = GetComponentsInChildren<Text>();
@@ -22,8 +21,7 @@ public class ShopButton : MonoBehaviour {
         level = gmi.GetStat(name);
         UpdateStatDisplay();
 	}
-	
-	// Update is called once per frame
+		
 	void Update () {
         if (level != gmi.GetStat(name))
         {

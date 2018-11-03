@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     
-    public float playerHP = 10f;
-
+    public float playerHP = 10f;   
     public float regenTimer = 0;
-    //private int playerLives;
-    //private float stamina;
 
     private Camera mainCam;
     private GunController gun;
@@ -16,18 +13,17 @@ public class PlayerController : MonoBehaviour {
     private GameObject optionsMenu;
     private GameManager gmi;
 
-	// Use this for initialization
+	
 	void Start () {
         gmi = GameManager.Instance;
+        gmi.player = gameObject;
         mainCam = FindObjectOfType<Camera>();
         gun = GetComponentInChildren<GunController>();
         pauseMenu = GameObject.Find("OnScreenMenu").transform.GetChild(2).gameObject;
         optionsMenu = GameObject.Find("OnScreenMenu").transform.GetChild(3).gameObject;
         Invoke("LoadPlayer", 0.05f);
-
-	}
-	
-	// Update is called once per frame
+    }
+		
 	void Update () {
         Ray camRay = mainCam.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
@@ -121,4 +117,6 @@ public class PlayerController : MonoBehaviour {
             gmi.inGame = true;
         }
     }
+
+
 }

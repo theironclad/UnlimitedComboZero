@@ -21,7 +21,8 @@ public class StatManager : MonoBehaviour {
         managerTexts = GetComponentsInChildren<Text>();
         //statString = name.Replace("_StatManager", "");
         NewSetupManager(statString);
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,14 +34,32 @@ public class StatManager : MonoBehaviour {
     }
 
     public void SetupSlider(string statString){
+        string currentString = "current_"+statString;
+        int currentValue = gmi.GetStat(currentString);
+        int normalValue = gmi.GetStat(statString);
+        if (currentValue<=0 && normalValue==1)
+        {
+            gmi.SetStat(currentString, 1);
+            print("Setting to stat string");
+            statSlider.value = normalValue;
+
+        }else if (currentValue <= 0 && normalValue > 1)
+        {
+            gmi.SetStat(currentString, normalValue);
+            print("Setting to stat string");
+            statSlider.value = normalValue;
+        }else{
+            print("Setting to current string");
+            statSlider.value = currentValue;
+        }
         print(statString + " From SetupSlider");
-        statSlider.maxValue = gmi.GetStat(statString);
-        statSlider.value = gmi.GetStat("current_" + statString);
+        statSlider.maxValue = normalValue;
+
     }
 
     public void CloseSlider(){
-        int value = (int)statSlider.value;
-        gmi.SetStat(statString, value);
+        int value = (int)statSlider.value;       
+        gmi.SetStat("current_" + statString, value);
     }
 
     private void UpdateSlider(){
@@ -67,8 +86,49 @@ public class StatManager : MonoBehaviour {
 
     public void SetupText(string stat){
         string sString = stat.Replace("player", "");
+        sString = sString.Replace("spawn", "");
+        sString = sString.Replace("_obj", "");
         sString = sString.Replace("AP", "");
-        managerTexts[0].text = sString;
+        print(sString);
+        print(stat);
+        if (sString.Contains("gun"))
+        {
+            sString = sString.Replace("gun", "");
+        }
+        if (sString.Contains("spread"))
+        {
+            sString = sString.Replace("spread", "");
+        }
+
+
+
+        switch (sString){
+            case "Add" :
+                managerTexts[0].text = "Spawn Add";
+                break;
+            case "comboTimerMax":
+                managerTexts[0].text = "Combo Timer Max";
+                break;
+            case "spFactor":
+                managerTexts[0].text = "SP Bonus";
+                break;
+            case "SS":
+                managerTexts[0].text = "Stage Bonus";
+                break;
+            case "FR":
+                managerTexts[0].text = "Fire Rate";
+                break;
+            case "PS":
+                managerTexts[0].text = "Bullet Speed";
+                break;
+            case "PD":
+                managerTexts[0].text = "Bullet Damage";
+                break;
+            default :
+                managerTexts[0].text = sString;
+                break;
+        }
+
         gmi.GetStat(stat);
         managerTexts[3].text = gmi.GetStat("cost_" + stat).ToString();
         managerTexts[1].text = sd.Descriptions[sString];

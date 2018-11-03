@@ -15,7 +15,8 @@ public class EnemyController : MonoBehaviour {
     public bool isAttacking;
     public float hitCooldown;
 
-    public ParticleSystem pps;
+    //public ParticleSystem pps;
+    public GameObject pps;
 
     [Header("Enemy Sounds")]
     public AudioSource aSource;
@@ -24,7 +25,8 @@ public class EnemyController : MonoBehaviour {
 
     private enum DmgType{projectile,melee};
     //private ComboController cc;
-    private MusicManager mm;
+   //private MusicManager mm;
+
     private SFXManager sfxManager;
     public EnemyGun eg;
     private PlayerController target;
@@ -35,10 +37,8 @@ public class EnemyController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         gmi = GameManager.Instance;
-        mm = GameObject.Find("MusicManager").GetComponent<MusicManager>();
-        sfxManager = GameObject.Find("SFXManager").GetComponent<SFXManager>();
-        target = GameObject.Find("Player").GetComponent<PlayerController>();
-
+        CheckForPlayer();
+        sfxManager = gmi.sfxm;
         if (gmi.lStats.currentStage>5)
         {
             int shootRoll = Random.Range(0, gmi.lStats.currentStage);
@@ -106,12 +106,13 @@ public class EnemyController : MonoBehaviour {
             target.playerHP = 0;
             sfxManager.PlayPlayerDeath();
             isAttacking = false;
-            //sc.spawningEnemies = false;
             gmi.DestroyPlayer(target);
-
         }else{
             target.playerHP -= strength*multiplier;
-            sfxManager.PlayPlayerHit();
+            if (sfxManager)
+            {
+                sfxManager.PlayPlayerHit();
+            }
         }
 
         hitCooldown = Random.Range(1f,2f);
@@ -129,5 +130,19 @@ public class EnemyController : MonoBehaviour {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
+    public void DeathParticles(){
+        Debug.Log("calling enemy destroy particles");
+        GameObject dp = Instantiate(pps, transform.position, Quaternion.identity);
+        Debug.Log("Created death particles");
+        Destroy(dp, 1f);
+    }
 
+    void CheckForPlayer(){
+        if (gmi.player)
+        {
+            target= gmi.player.GetComponent<PlayerController>();
+        }else{
+            return;
+        }
+    }
 }

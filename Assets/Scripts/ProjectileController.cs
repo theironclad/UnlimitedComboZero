@@ -34,6 +34,11 @@ public class ProjectileController : MonoBehaviour {
             Destroy(gameObject);
         }
 
+        if(go.GetComponent<Shredder>()){
+            Debug.Log("Hit shredder");
+            Destroy(gameObject);
+        }
+
         if (go.GetComponent<ProjectileController>())
         {
             print("Hitting projectile");
@@ -52,10 +57,21 @@ public class ProjectileController : MonoBehaviour {
 
     void DestroyEnemy(GameObject obj){
         EnemyController oec = obj.GetComponent<EnemyController>();
-        Animator a = obj.GetComponent<Animator>();
+        Animator a = obj.GetComponent<Animator>();       
         gmi.lStats.enemiesDefeated++;
+        switch(name){
+            case "SpreadProjectile(Clone)":
+                gmi.lStats.spreadGunKills++;
+                break;
+            case "PlayerProjectile(Clone)":
+                gmi.lStats.defaultGunKills++;
+                break;
+            default:
+                break;
+        }
         gmi.lStats.currentPoints += (oec.pointValue * gmi.lStats.currentStage);
         gmi.lStats.atPoints += (oec.pointValue);
+        oec.DeathParticles();
         Destroy(obj);
         cc.StartComboTimer();
         sc.CallSpawn(gmi.lStats.spawnAddAP);

@@ -19,11 +19,20 @@ public class HealthSlider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        healthSlider.value = pc.playerHP;
+        UpdateSlider();
 	}
 
     void SetUpSlider(){
         healthSlider.maxValue = gmi.lStats.currentPlayerHP;
         healthSlider.value = pc.playerHP;
+    }
+
+    void UpdateSlider(){
+        if (pc)
+        {
+            healthSlider.value = pc.playerHP;
+        }else{
+            healthSlider.value = 0;
+        }
     }
 }
