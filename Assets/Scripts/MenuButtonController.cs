@@ -65,10 +65,9 @@ public class MenuButtonController : MonoBehaviour {
         gunShop.SetActive(false);
         secretShop.SetActive(false);
         StatManager sm = statManager.GetComponentInChildren<StatManager>();
-        print(sm);
-        //statManager.GetComponentInChildren<StatManager>().statString = transform.parent.name;
         sm.statString = transform.parent.name;
         statManager.SetActive(true);
+        sm.NewSetupManager(sm.statString);
     }
 
 

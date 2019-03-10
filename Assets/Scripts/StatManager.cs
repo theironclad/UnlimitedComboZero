@@ -18,10 +18,9 @@ public class StatManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         gmi = GameManager.Instance;
+        sd = gmi.GetComponent<StatDescriptions>();
         managerTexts = GetComponentsInChildren<Text>();
-        //statString = name.Replace("_StatManager", "");
         NewSetupManager(statString);
-
     }
 	
 	// Update is called once per frame
@@ -37,7 +36,11 @@ public class StatManager : MonoBehaviour {
         string currentString = "current_"+statString;
         int currentValue = gmi.GetStat(currentString);
         int normalValue = gmi.GetStat(statString);
-        if (currentValue<=0 && normalValue==1)
+        if(currentValue>0){
+            statSlider.value = currentValue;
+            print("Stat slider value " + statSlider.value);
+            print("Set string to current : " + currentString + " " + currentValue);
+        }else if (currentValue<=0 && normalValue==1)
         {
             gmi.SetStat(currentString, 1);
             print("Setting to stat string");
@@ -54,7 +57,6 @@ public class StatManager : MonoBehaviour {
         }
         print(statString + " From SetupSlider");
         statSlider.maxValue = normalValue;
-
     }
 
     public void CloseSlider(){
@@ -79,9 +81,9 @@ public class StatManager : MonoBehaviour {
     }
 
     public void NewSetupManager(string statName){
+        currentStatString = statName;
         SetupText(statName);
         SetupSlider(statName);
-        currentStatString = statName;
     }
 
     public void SetupText(string stat){
@@ -99,9 +101,6 @@ public class StatManager : MonoBehaviour {
         {
             sString = sString.Replace("spread", "");
         }
-
-
-
         switch (sString){
             case "Add" :
                 managerTexts[0].text = "Spawn Add";
@@ -128,7 +127,6 @@ public class StatManager : MonoBehaviour {
                 managerTexts[0].text = sString;
                 break;
         }
-
         gmi.GetStat(stat);
         managerTexts[3].text = gmi.GetStat("cost_" + stat).ToString();
         managerTexts[1].text = sd.Descriptions[sString];
